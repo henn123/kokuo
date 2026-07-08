@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pelacak Antrean Hendri</title>
+    <style>
+        body { font-family: sans-serif; padding: 20px; max-width: 400px; margin: auto; }
+        input, button { padding: 12px; width: 100%; margin: 10px 0; box-sizing: border-box; }
+        #hasil { font-size: 1.1em; font-weight: bold; color: #2c3e50; margin-top: 10px; padding: 15px; background: #e8f4fd; border-radius: 8px; border-left: 5px solid #3498db; }
+    </style>
+</head>
+<body>
+    <h2>Pelacak Antrean</h2>
+    <p>Daftar: Eri, Andi, <b>Hendri</b>, Sofal</p>
+    
+    <label>Siapa giliran sekarang?</label>
+    <input type="text" id="sekarangInput" placeholder="Ketik nama...">
+    <button onclick="hitung()">Cek Giliran</button>
+
+    <div id="hasil">Hasil akan muncul di sini...</div>
+
+    <script>
+        const daftar = ["eri", "andi", "hendri", "sofal"];
+        const namaku = "hendri";
+
+        function hitung() {
+            let input = document.getElementById('sekarangInput').value.toLowerCase().trim();
+            let indexSekarang = daftar.indexOf(input);
+            let indexKu = daftar.indexOf(namaku);
+
+            if (indexSekarang === -1) {
+                document.getElementById('hasil').innerText = "Nama tidak ditemukan";
+                return;
+            }
+
+            if (indexSekarang === indexKu) {
+                document.getElementById('hasil').innerText = "Sekarang giliran kamu!";
+                return;
+            }
+
+            // Mencari siapa saja yang ada di antara giliran sekarang sampai sebelum namaku
+            let sisaOrang = [];
+            let i = (indexSekarang + 1) % daftar.length;
+            
+            while (i !== indexKu) {
+                sisaOrang.push(daftar[i]);
+                i = (i + 1) % daftar.length;
+            }
+
+            let jumlah = sisaOrang.length;
+            let daftarNama = sisaOrang.join(", ");
+            
+            document.getElementById('hasil').innerText = `Masih ada ${jumlah} orang lagi yaitu: ${daftarNama}.`;
+        }
+    </script>
+</body>
+</html>
